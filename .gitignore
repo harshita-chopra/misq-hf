@@ -1,0 +1,12 @@
+sp_data.ipynb
+sp_run.py
+
+# Python caches
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
