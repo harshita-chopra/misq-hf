@@ -134,7 +134,7 @@ def ques_and_cls_given_items(task, items: list, n, asked_ques: list = None, pare
 def cls_given_repo(task, items: list, repo, translate=False, self_repo=True):
 
     if task.fullset: # no classification
-        print(f"Full set classification for {task.task} task, returning items as is.")
+        # print(f"Full set classification for {task.task} task, returning items as is.")
         return {"items_yes": items, "items_no": items}
     
     # constrained set generation with prompting
@@ -201,7 +201,6 @@ def initialize_open_set(task, repo=""):
         rsp = set(eval(rsp))
         return list(rsp)
     except Exception as e:
-        print("type:", type(rsp))
         print(f"Error: {e}\n{traceback.print_exc()}")
         # Extra: Safely parse rsp with ast.literal_eval if eval fails
         try:

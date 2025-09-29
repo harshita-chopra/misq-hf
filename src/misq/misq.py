@@ -179,7 +179,7 @@ class MISQNode:
 
         for leaf in exist_leaves:
             if node_y_items_set == set(leaf.items):
-                print('Found existing self-repo root with same items.\n')
+                # print('Found existing self-repo root with same items.\n')
                 return leaf
         if node_y_items_len >= 5:
             valid_leaves = [leaf for leaf in exist_leaves 
@@ -188,7 +188,7 @@ class MISQNode:
                             ]
             if valid_leaves:
                 closest_leaf = min(valid_leaves, key=lambda leaf: abs(len(leaf.items) - node_y_items_len))
-                print('Found existing self-repo root with closest intersection.\n')
+                # print('Found existing self-repo root with closest intersection.\n')
                 return closest_leaf
                 
         self.children.append((node_y, node_n))
@@ -406,9 +406,7 @@ def select(task, root, cluster_id):
 
     # After all iterations, choose the best child of the root based on visit count or total reward
     best_child = root.best_child(exploration_constant=0)  # Set exploration constant to zero for final selection
-    # best child might be None if no children
-    print(f"\n\nBest child after MCTS: {best_child.print() if best_child else 'None'}")
-    
+   
     return best_child  
 
 

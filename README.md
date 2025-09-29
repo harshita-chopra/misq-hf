@@ -6,7 +6,7 @@ Effective decision-making and problem-solving in conversational systems require 
 
 1. Install `misq` package
 ```bash
-git clone https://github.com/[user-name]/[repo].git MISQ
+git clone https://github.com/harshita-chopra/misq-hf.git MISQ
 cd MISQ
 conda create --name misq python=3.13
 conda activate misq

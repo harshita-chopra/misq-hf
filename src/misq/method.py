@@ -155,7 +155,6 @@ def get_guesser_response(task, history, ques_id, node, cluster_id=None):
             return node, res, False
     
     if ques_id < max(4, int(task.max_turn*task.delta)): 
-        print("\n\n>>> node_item_set",node.items,"\n")
         select_start = time.time()
         n = select(task, node, cluster_id)
         select_elapsed = time.time() - select_start
@@ -188,7 +187,6 @@ def get_guesser_response(task, history, ques_id, node, cluster_id=None):
                                         "content": targeting_prompt_set.format(item_list_str=', '.join(itemSet),
                                                                                 # reminder=' from the initial set of possibilities' if task.declare_set else ''
                                                                                 )}]
-        print("\n\n>>> targeting_prompt_set",itemSet,"\n")
     else:
         targeting_prompt_free = task.prompts.targeting_prompt_free_FA if task.free_answer else task.prompts.targeting_prompt_free
         msg = copy.deepcopy(history) + [{"role": "user", "content": targeting_prompt_free}]
@@ -245,7 +243,7 @@ def converse(task, i):
 
     # Reset the prompt call count
     PromptTracker.reset()
-    print(f"QGC start: {PromptTracker.get_count()}")
+    # print(f"QGC start: {PromptTracker.get_count()}")
 
     runtime_stats = {
         'emb_cluster_time': [],
@@ -262,7 +260,7 @@ def converse(task, i):
 
     X ='X' if task.task=='20q' else 'Final outcome'
     closed_set_declaration = f"\n{X} is strictly one of the following: \n{task.set}\n" if (task.declare_set and len(task.set)) else ""
-    print(f"\ntask.declare_set = {task.declare_set} \nclosed_set_declaration: {closed_set_declaration}")
+    # print(f"\ntask.declare_set = {task.declare_set} \nclosed_set_declaration: {closed_set_declaration}")
 
     if "self_repo" in task.data[i] and task.open_set_size <= 0:
         print("self_repo in task data")
@@ -316,10 +314,8 @@ def converse(task, i):
         node = task.root.handle_self_repo(task, history_g) if task.open_set_size > 0 else task.root
         if task.open_set_size > 0:
             closed_set_declaration = f"\n{X} is one of the following: \n{node.items}\n" if (task.declare_set and len(node.items)) else ""
-            print(f"\nInitialized: task.declare_set = {task.declare_set} \nclosed_set_declaration: {closed_set_declaration}")
+            # print(f"\nInitialized: task.declare_set = {task.declare_set} \nclosed_set_declaration: {closed_set_declaration}")
             history_g.append({'role': 'user', 'content': closed_set_declaration})
-
-        print("\nin method converse: ", node.print())
 
     node, bot1_response, flag = get_guesser_response(task, history_g, count + 1, node, cluster_id)
     print("QG:", bot1_response)  # QG: guesser / question generator
@@ -335,7 +331,6 @@ def converse(task, i):
         bot2_response = get_examiner_response(task, history_e)  # chatbot 2 is the examiner in code
         update_node = True if bot1_response==node.question else False
         if task.free_answer and flag:
-            print("\n\n>>> Free answer mode, handling free answer response")
             node = node.handle_free_answer(task, bot1_response, bot2_response)
         elif bot2_response.replace('\n','').lower().strip().startswith("yes") and update_node:
             node = node.ans2node(True)
@@ -378,11 +373,9 @@ def converse(task, i):
 
         # renew
         if count <= int(task.max_turn*0.3) + task.n_pre_ask and task.open_set_size > 0 and len(node.items) < task.size_to_renew:
-            print("\nrenew_node_to_root")
             node = renew_node_to_root(task, node, history_g)
             # declare new set if allowed
             closed_set_declaration = f"\nNow {X} is possibly one of the following: \n{node.items}\n" if (task.declare_set and len(node.items)) else ""
-            print(f"\nRenewed: task.declare_set = {task.declare_set} \nclosed_set_declaration: {closed_set_declaration}")
             history_g.append({'role': 'user', 'content': closed_set_declaration})
 
         node, bot1_response, flag = get_guesser_response(task, history_g, count + 1, node, cluster_id)
@@ -393,7 +386,7 @@ def converse(task, i):
     if count < task.max_turn:
         state = 1
     
-    print(f"QGC end: {PromptTracker.get_count()}")
+    # print(f"QGC end: {PromptTracker.get_count()}")
 
     return {'log': {
             'turn': count, 'history_g': history_g, 'history_e': history_e, 'state': state, 'item': task.data[i]["target"],
@@ -404,7 +397,6 @@ def converse(task, i):
 def naive_converse(task, i):
     item = task.data[i]["target"]
     target_decl = task.prompts.target_declaration.format(target=item)
-    print(target_decl)
 
     if "self_repo" in task.data[i]:
         guesser_prologue = task.prompts.guesser_prologue_FA if task.free_answer else task.prompts.guesser_prologue
