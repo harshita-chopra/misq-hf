@@ -1,4 +1,5 @@
-# MISQ-HF
+# MISQ-HF 
+#### Feedback-Aware Monte Carlo Tree Search for Efficient Information Seeking in Goal-Oriented Conversations ([NeurIPS 2025](https://arxiv.org/abs/2501.15056))
 
 Effective decision-making and problem-solving in conversational systems require the ability to identify and acquire missing information through targeted questioning. A key challenge lies in efficiently narrowing down a large space of possible outcomes by posing questions that minimize uncertainty. To address this, we introduce a novel framework that leverages Large Language Models (LLMs) to generate information-seeking questions, with Monte Carlo Tree Search (MCTS) to strategically select questions that maximize information gain, as a part of inference-time planning. Our primary contribution includes a hierarchical feedback mechanism that exploits past interaction patterns to guide future strategy. Specifically, each new problem is mapped to a cluster based on semantic similarity, and our UCT (Upper Confidence bound for Trees) formulation employs a cluster-specific bonus reward to prioritize successful question trajectories that have proven effective for similar problems in the past. 
 
@@ -53,3 +54,15 @@ Run experiments via `run.py`, which implements the MISQ algorithm, as well as th
 
 ---
 Parts of this code are adopted from the baseline UoT (Hu et al., 2024)
+
+## Citation
+
+```bibtex
+@inproceedings{chopra2025feedback,
+  author    = {Chopra, Harshita and Shah, Chirag},
+  title     = {Feedback-Aware Monte Carlo Tree Search for Efficient Information Seeking in Goal-Oriented Conversations},
+  booktitle = {Proceedings of the 39th Conference on Neural Information Processing Systems (NeurIPS 2025)},
+  year      = {2025},
+  url       = {https://arxiv.org/abs/2501.15056}
+}
+```
