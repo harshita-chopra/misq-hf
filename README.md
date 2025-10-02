@@ -47,13 +47,14 @@ Run experiments via `run.py`, which implements the MISQ algorithm, as well as th
 
 - `--declare_set`: If True, declare all the possiblities in first prompt
 
+*Parts of this code are adopted from the baseline UoT (Hu et al., 2024)*
 
-## Implement Note
+#### Implementation Note
 
-- The root of MISQ (stored in `roots/`) with the same setting will be loaded by default. And broken root file do cause error. Thus, if some errors occur when rerunning an experiment, you can try deleting the related root file.
+- The root of MISQ (stored in `roots/`) with the same setting will be loaded by default. A broken root file can cause an error. If some errors occur when resuming or restarting an experiment, deleting the related root file may help.
+
 
 ---
-Parts of this code are adopted from the baseline UoT (Hu et al., 2024)
 
 ## Citation
 
@@ -65,4 +66,5 @@ Parts of this code are adopted from the baseline UoT (Hu et al., 2024)
   year      = {2025},
   url       = {https://arxiv.org/abs/2501.15056}
 }
+
 ```
